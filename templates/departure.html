@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Stepik Travel</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+  {% extends 'base.html' %}
+  {% block departure %}
+
+  <main class="container mt-3">
+    <h1 class="display-5 mt-4">Летим из <b>{{ departures[departure].split()|last }}</b></h1>
+    {% if tours|length == 0 %}
+    <p class="mb-4"><b>Туров не найдено</b></p>
+    {% elif (tours|length % 10 == 2 or tours|length % 10 == 3 or tours|length % 10 == 4) and tours|length % 100 != 12 %}
+    <p class="mb-4"><b>Найдено {{ tours|length }} турa,</b> от {{ dep_price|min }} до {{ dep_price|max }} и от {{ dep_night|min }} ночей до {{ dep_night|max }} ночей</p>
+    {% elif (tours|length == 1 or tours|length % 10 == 1) and tours|length % 100 != 11 %}
+    <p class="mb-4"><b>Найден {{ tours|length }} тур,</b> от {{ dep_price|min }} до {{ dep_price|max }} и от {{ dep_night|min }} ночей до {{ dep_night|max }} ночей</p>
+    {% else %}
+    <p class="mb-4"><b>Найдено {{ tours|length }} туров,</b> от {{ dep_price|min }} до {{ dep_price|max }} и от {{ dep_night|min }} ночей до {{ dep_night|max }} ночей</p>
+
+    {% endif %}
+
+    <!-- CARDS -->
+    <div class="row mt-5">
+      {% for tour in tours %}
+        <div class="col-4">
+        <div class="card mb-4">
+          <div class="embed-responsive embed-responsive-16by9">
+          <img src="{{ tours[tour].picture }}" class="card-img-top embed-responsive-item" alt="">
+          </div>
+          <div class="card-body">
+            <h2 class="h6 card-title">{{ tours[tour].country}}: {{ tours[tour].title }}</h2>
+            <p class="card-text">{{ tours[tour].description|truncate(100) }}</p>
+            <p class="h6 card-title">{{ tours[tour].date }}, {{ tours[tour].nights + 1 }} дней, {{ tours[tour].price }} Р, {{ tours[tour].stars }}★</p>
+            <a href="/tours/{{ tour }}/" class="btn btn-sm btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+ {% endblock %}
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
