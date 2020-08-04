@@ -43,4 +43,5 @@ def tours(id):
                            departures = data.departures,
                            id = int(id))
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run()
